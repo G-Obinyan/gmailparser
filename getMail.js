@@ -98,7 +98,12 @@ class ReadEmail {
 
           final = text.split("I confirm this restaurant offers its own delivery service (ie. no UberEats, DoorDash, Skip the dishes etc.):")
           console.log(final[1]);
-
+            //To do:
+            //Create function to initiate JSON with required fields
+            //increment JSON as parsing continues
+            //Send JSON to contentful function
+            //Format JSON into proper format to sent to contentful 
+            //Call contentful API
           //resolve(final);
         });
       });
