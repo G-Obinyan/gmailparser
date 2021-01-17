@@ -1,0 +1,23 @@
+{
+  "name": "gmailparser",
+  "version": "1.0.0",
+  "description": "Script to retrieve emails from gmail then parse",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G-Obinyan/gmailparser.git"
+  },
+  "author": "Gamaliel Obinyan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/G-Obinyan/gmailparser/issues"
+  },
+  "homepage": "https://github.com/G-Obinyan/gmailparser#readme",
+  "dependencies": {
+    "gmail-api-parse-message": "^2.1.2",
+    "googleapis": "^39.2.0"
+  }
+}
