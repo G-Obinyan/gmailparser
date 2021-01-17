@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { google } = require('googleapis');
-const TOKEN_PATH = 'token.json';
+const TOKEN_PATH = '../token.json';
 
 //var rp = require('request-promise');
 var parseMessage = require('gmail-api-parse-message');
@@ -21,7 +21,7 @@ class ReadEmail {
 
   getCredentials() {
     return new Promise((resolve, reject) => {
-      fs.readFile('credentials.json', (err, content) => {
+      fs.readFile('../credentials.json', (err, content) => {
         if (err) reject('Error loading client secret file:' + err);
         resolve(JSON.parse(content));
       });
