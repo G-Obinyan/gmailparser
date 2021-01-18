@@ -5,7 +5,7 @@ import initialRestToJson from './buildJSON.js';
 
 
 //var rp = require('request-promise');
-import parseMessage from 'gmail-api-parse-message';
+//import parseMessage from 'gmail-api-parse-message';
 
 class ReadEmail {
   constructor(_dominio) {
@@ -48,7 +48,7 @@ class ReadEmail {
             var request = gmail.users.messages.list({
                 userId: 'me',
                 labelIds: 'INBOX',
-                maxResults: 30,
+                maxResults: 1,
                 json: true,
             });
 
@@ -117,7 +117,8 @@ class ReadEmail {
                         //nextTxt = text.split("Link to website - (Please use https if possible):");
                         //final = nextTxt[0].split("Hours:");
 
-                        initialRestToJson(thisResto);
+                        initialRestToJson(thisResto); 
+                        //resolve(initialRestToJson(thisResto));
 
 
                     });

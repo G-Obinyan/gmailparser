@@ -6,13 +6,46 @@ const client = contentful.createClient({
     accessToken: accessToken
   });
 
-  try {
-    export default function(myResto) {
-        const space = await client.getSpace(spaceID);
-        const environment = await space.getEnvironment(spaceName);
-        const newEntry = await environment.createEntry('restaurant', {myResto});
-        console.log(entry);
+  const space = await client.getSpace(spaceID);
+  const environment = await space.getEnvironment(spaceName);
+
+  module.exports = {
+    createAsset: (link) => { 
+        environment.createAsset(
+            {
+                fields:{ 
+                    file: {
+                        "en-US": {
+                            "upload": link,
+                        }
+                    },
+                }
+            }
+        )
+    },
+    createEntry: (myResto) => {
+        let createResto = {fields: myResto};
+        environment.createEntry('restaurant', createResto).then((entry)=> console.log(entry)).catch(console.error);
     }
-} catch (error) {
-    console.log(error);
-  }
+
+};
+
+// module.exports.createAsset = (link) => {
+//     environment.createAsset(
+//         {
+//             fields:{ 
+//                 file: {
+//                     "en-US": {
+//                         "upload": link,
+//                     }
+//                 },
+//             }
+//         }
+//     );
+// }
+  
+
+    // module.exports.createEntry = (myResto) => {
+    //     let createResto = {fields: myResto};
+    //     environment.createEntry('restaurant', createResto).then((entry)=> console.log(entry)).catch(console.error);
+    // }
