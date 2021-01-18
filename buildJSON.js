@@ -77,11 +77,23 @@ export default function(restoDetails){
     fields.name["en-US"] = restoDetails.restoName;
     fields.image["en-US"] = restoDetails.image;
     fields.description["en-US"] = restoDetails.desc;
-    //fields.hasDelivery = value;
-    //fields.hasPickup = value;
+    if (restoDetails.service == "Delivery & Pickup") {
+        fields.hasDelivery["en-US"] = true;
+        fields.hasPickup["en-US"] = true;
+    }
+    else if (restoDetails.service == "Delivery") {
+        fields.hasDelivery["en-US"] = true;
+        fields.hasPickup["en-US"] = false;
+    }
+    else {
+        fields.hasDelivery["en-US"] = false;
+        fields.hasPickup["en-US"] = true;
+    };
     fields.link["en-US"] = restoDetails.link;
     fields.location["en-US"] = restoDetails.address;
     fields.tags["en-US"] = restoDetails.cuisine;
+
+    console.log(fields);
 }
 
 
