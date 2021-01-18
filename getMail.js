@@ -1,5 +1,3 @@
-
-
 import fs from 'fs';
 import { google } from 'googleapis';
 const TOKEN_PATH = '../token.json'; 
@@ -44,83 +42,93 @@ class ReadEmail {
     });
   }
 
-  getLastMessage() {
-    return new Promise((resolve, reject) => {
-      const gmail = google.gmail({ version: 'v1', auth: this.auth });
-      var request = gmail.users.messages.list({
-        userId: 'me',
-        labelIds: 'INBOX',
-        maxResults: 30,
-        json: true,
-      });
-      request.then(ret => {
-        let id = ret.data.messages[3].id;
-        var request2 = gmail.users.messages.get({
-          userId: 'me',
-          id: id,
-          json: true,
+    getLastMessage() {
+        return new Promise((resolve, reject) => {
+            const gmail = google.gmail({ version: 'v1', auth: this.auth });
+            var request = gmail.users.messages.list({
+                userId: 'me',
+                labelIds: 'INBOX',
+                maxResults: 30,
+                json: true,
+            });
+
+
+            request.then(ret => {
+                var i;
+                for (i = 0; (i< ret.data.messages.length); i++) {
+                    let id = ret.data.messages[i].id;
+                    var request2 = gmail.users.messages.get({
+                        userId: 'me',
+                        id: id,
+                        json: true,
+                    });
+
+                    request2.then(ret2 => {
+                        var thisResto = {
+                            "restoName": "",
+                            "desc": "",
+                            "address": "",
+                            "link": "",
+                            "cuisine": "",
+                            "service": "",
+                            "image": "",
+                        };
+
+                        let msg = ret2.data.payload.body.data;
+                        let buff = new Buffer.from(msg, 'base64');
+                        let text = buff.toString('ascii');
+
+                        let nextTxt = text.split("Description - 250 character limit:");
+                        let final = nextTxt[0].split("Restaurant Name:");
+                        let restoName = final[1].replace(/(\r\n|\n|\r)/gm, "");
+                        thisResto.restoName = restoName;
+
+                        nextTxt = text.split("Address:");
+                        final = nextTxt[0].split("Description - 250 character limit:");
+                        let desc = final[1].replace(/(\r\n|\n|\r)/gm, "");
+                        thisResto.desc = desc;
+
+                        nextTxt = text.split("Hours:");
+                        final = nextTxt[0].split("Address:");
+                        let add = final[1].replace(/(\r\n|\n|\r)/gm, "");
+                        thisResto.address = add;
+
+                        nextTxt = text.split("Cuisine:");
+                        final = nextTxt[0].split("Link to website - (Please use https if possible):");
+                        let link = final[1].replace(/(\r\n|\n|\r)/gm, "");
+                        thisResto.link = link;
+
+                        nextTxt = text.split("Service Offered:");
+                        final = nextTxt[0].split("Cuisine:");
+                        let cuisine = final[1].replace(/(\r\n|\n|\r)/gm, "");
+                        thisResto.cuisine = cuisine;
+
+
+                        nextTxt = text.split("Please select an image:");
+                        final = nextTxt[0].split("Service Offered:");
+                        let service = final[1].replace(/(\r\n|\n|\r)/gm, "");
+                        thisResto.service = service;
+
+                        nextTxt = text.split("I confirm this restaurant offers its own delivery service (ie. no UberEats, DoorDash, Skip the dishes etc.):");
+                        final = nextTxt[0].split("Please select an image:");
+                        let image = final[1].replace(/(\r\n|\n|\r)/gm, "");
+                        thisResto.image = image;
+
+                        //nextTxt = text.split("Link to website - (Please use https if possible):");
+                        //final = nextTxt[0].split("Hours:");
+
+                        initialRestToJson(thisResto);
+
+
+                    });
+                };
+            });
         });
-        request2.then(ret2 => {
-            //var parsedMessage = parseMessage(ret2);
-            //console.log(parsedMessage);
-          var myResto =[];
-          var thisResto = {
-            "restoName": "",
-            "desc": "",
-            "address": "",
-            "link": "",
-            "cuisine": "",
-            "service": "",
-            "image": "",
-          
-          };
+    }
+  
+}
+new ReadEmail('_dominio').setup();
 
-          let msg = ret2.data.payload.body.data;
-          let buff = new Buffer.from(msg, 'base64');
-          let text = buff.toString('ascii');
-
-          let nextTxt = text.split("Description - 250 character limit:");
-          let final = nextTxt[0].split("Restaurant Name:");
-          let restoName = final[1].replace(/(\r\n|\n|\r)/gm, "");
-          thisResto.restoName = restoName;
-
-          nextTxt = text.split("Address:");
-          final = nextTxt[0].split("Description - 250 character limit:");
-          let desc = final[1].replace(/(\r\n|\n|\r)/gm, "");
-          thisResto.desc = desc;
-
-          nextTxt = text.split("Hours:");
-          final = nextTxt[0].split("Address:");
-          let add = final[1].replace(/(\r\n|\n|\r)/gm, "");
-          thisResto.address = add;
-
-          //nextTxt = text.split("Link to website - (Please use https if possible):");
-          //final = nextTxt[0].split("Hours:");
-
-          nextTxt = text.split("Cuisine:");
-          final = nextTxt[0].split("Link to website - (Please use https if possible):");
-          let link = final[1].replace(/(\r\n|\n|\r)/gm, "");
-          thisResto.link = link;
-          //console.log(final[1]);
-
-          nextTxt = text.split("Service Offered:");
-          final = nextTxt[0].split("Cuisine:");
-          let cuisine = final[1].replace(/(\r\n|\n|\r)/gm, "");
-          thisResto.cuisine = cuisine;
-
-
-          nextTxt = text.split("Please select an image:");
-          final = nextTxt[0].split("Service Offered:");
-          let service = final[1].replace(/(\r\n|\n|\r)/gm, "");
-          thisResto.service = service;
-          //console.log(final[1]);
-
-          nextTxt = text.split("I confirm this restaurant offers its own delivery service (ie. no UberEats, DoorDash, Skip the dishes etc.):");
-          final = nextTxt[0].split("Please select an image:");
-          let image = final[1].replace(/(\r\n|\n|\r)/gm, "");
-          thisResto.image = image;
-
-          initialRestToJson(thisResto);
 
           //final = text.split("I confirm this restaurant offers its own delivery service (ie. no UberEats, DoorDash, Skip the dishes etc.):")
           //console.log(final[1]);
@@ -131,14 +139,3 @@ class ReadEmail {
             //Format JSON into proper format to sent to contentful 
             //Call contentful API
           //resolve(final);
-        });
-      });
-    });
-  }
-
-
-  
-}
-new ReadEmail('_dominio').setup();
-
-    
