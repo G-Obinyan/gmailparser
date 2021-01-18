@@ -1,3 +1,6 @@
+import contentfulPush from './pushtoContentful'
+
+
 export default function(restoDetails){
     let fields = 
         {
@@ -71,8 +74,6 @@ export default function(restoDetails){
                 ]
             }
         }
-    //var arrayLength = Object.keys(restoDetails).length;
-
 
     fields.name["en-US"] = restoDetails.restoName;
     fields.image["en-US"] = restoDetails.image;
@@ -93,9 +94,10 @@ export default function(restoDetails){
     fields.location["en-US"] = restoDetails.address;
     fields.tags["en-US"] = restoDetails.cuisine;
 
-    console.log(fields);
+    contentfulPush(fields);
+
 }
 
 
 
-
+//var arrayLength = Object.keys(restoDetails).length;
