@@ -15,8 +15,10 @@
   "bugs": {
     "url": "https://github.com/G-Obinyan/gmailparser/issues"
   },
+  "type": "module",
   "homepage": "https://github.com/G-Obinyan/gmailparser#readme",
   "dependencies": {
+    "esm": "^3.2.25",
     "gmail-api-parse-message": "^2.1.2",
     "googleapis": "^39.2.0"
   }

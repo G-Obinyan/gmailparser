@@ -1,44 +1,44 @@
-function buildRestoJSON(attribute, value) {
+export default function(restoDetails){
     let fields = 
-            {
-                "name": {
-                    "en-US": ""
-                        },
-                "image": {
-                    "en-US": {
-                        "sys": {
-                            "type": "",
-                            "linkType": "",
-                            "id": ""
-                        }
+        {
+            "name": {
+                "en-US": ""
+                },
+            "image": {
+                "en-US": {
+                    "sys": {
+                        "type": "",
+                        "linkType": "",
+                        "id": ""
                     }
-                },
-                "description": {
-                    "en-US": ""
-                },
-                "hasDelivery": {
-                    "en-US": false
-                },
-                "hasPickup": {
-                    "en-US": false
-                },
-                "link": {
-                    "en-US": ""
-                },
-                "location": {
-                    "en-US": {
-                        "lon": 0,
-                        "lat": 0,
-                    }
-                },
-                "tags": {
-                    "en-US": [
-                      ""
-                    ]
-                  },
-                  "deliveryHours": {
-                    "en-US": [
-                      {
+                }
+            },
+            "description": {
+                "en-US": ""
+            },
+            "hasDelivery": {
+                "en-US": false
+            },
+            "hasPickup": {
+                "en-US": false
+            },
+            "link": {
+                "en-US": ""
+            },
+            "location": {
+                "en-US": {
+                    "lon": 0,
+                    "lat": 0,
+                }
+            },
+            "tags": {
+                "en-US": [
+                    ""
+                ]
+            },
+            "deliveryHours": {
+                "en-US": [
+                    {
                         "Friday": {
                           "open": "",
                           "closed": ""
@@ -67,11 +67,23 @@ function buildRestoJSON(attribute, value) {
                           "open": "1",
                           "closed": ""
                         }
-                      }
-                    ]
-                }
-            }       
+                    }
+                ]
+            }
+        }
+    //var arrayLength = Object.keys(restoDetails).length;
+
+
+    fields.name["en-US"] = restoDetails.restoName;
+    fields.image["en-US"] = restoDetails.image;
+    fields.description["en-US"] = restoDetails.desc;
+    //fields.hasDelivery = value;
+    //fields.hasPickup = value;
+    fields.link["en-US"] = restoDetails.link;
+    fields.location["en-US"] = restoDetails.address;
+    fields.tags["en-US"] = restoDetails.cuisine;
 }
-    
+
+
 
 
