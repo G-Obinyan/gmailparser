@@ -86,9 +86,8 @@ export default function (restoDetails) {
   // fields.image["en-US"] = restoDetails.image;
   let link =
     "https://images2.minutemediacdn.com/image/upload/c_crop,h_2172,w_3864,x_0,y_202/v1558021472/shape/mentalfloss/80312-istock-957009874.jpg?itok=GcNVLt6Q";
-  createAsset(link).then(res => {
+  createAsset(link).then((res) => {
     fields.image["en-US"].sys.id = res.sys.id;
-    res.processForLocale('en-US').then(finalAsset => createEntry(fields));
+    res.processForLocale("en-US").then((finalAsset) => createEntry(fields));
   });
 }
-
