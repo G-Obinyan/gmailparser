@@ -1,4 +1,5 @@
 import { createEntry, createAsset } from "./pushtoContentful.mjs";
+import { getAddress } from "./getAddress.js";
 
 export default function (restoDetails) {
   let fields = {
@@ -38,11 +39,7 @@ export default function (restoDetails) {
     deliveryHours: {
       "en-US": [
         {
-          Friday: {
-            open: "",
-            closed: "",
-          },
-          Sunday: {
+          Monday: {
             open: "",
             closed: "",
           },
@@ -50,7 +47,7 @@ export default function (restoDetails) {
             open: "",
             closed: "",
           },
-          Saturday: {
+          Wednesday: {
             open: "",
             closed: "",
           },
@@ -58,7 +55,15 @@ export default function (restoDetails) {
             open: "",
             closed: "",
           },
-          Wednesday: {
+          Friday: {
+            open: "",
+            closed: "",
+          },
+          Saturday: {
+            open: "",
+            closed: "",
+          },
+          Sunday: {
             open: "",
             closed: "",
           },
@@ -80,14 +85,78 @@ export default function (restoDetails) {
     fields.hasPickup["en-US"] = true;
   }
   fields.link["en-US"] = restoDetails.link;
-  // //fields.location["en-US"] = restoDetails.address;
   fields.tags["en-US"].push(restoDetails.cuisine);
-
+  // fields.location["en-US"] = restoDetails.address;
   // fields.image["en-US"] = restoDetails.image;
-  let link =
-    "https://images2.minutemediacdn.com/image/upload/c_crop,h_2172,w_3864,x_0,y_202/v1558021472/shape/mentalfloss/80312-istock-957009874.jpg?itok=GcNVLt6Q";
-  createAsset(link).then((res) => {
-    fields.image["en-US"].sys.id = res.sys.id;
-    res.processForLocale("en-US").then((finalAsset) => createEntry(fields));
-  });
+
+  let link = ''; //Pass in link from email here
+  let restoAddress = restoDetails.address;
+
+  getAddress(restoAddress).then((res) => {
+    console.log(res);
+    fields.location["en-US"].lat = res[0].latitude;
+    fields.location["en-US"].lon = res[0].longitude;
+
+    if (link) {
+      createAsset(link)
+        .then((res) => {
+          fields.image["en-US"].sys.id = res.sys.id;
+          res
+            .processForLocale("en-US")
+            .then((finalAsset) =>
+              createEntry(fields)
+                .then()
+                .catch((err) => {
+                  console.log("Create entry failure");
+                })
+            )
+            .catch((err) => {
+              console.log("Process.locale failed");
+              createEntry(fields)
+                .then()
+                .catch((err) => {
+                  console.log("Create entry failed again");
+                });
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          createEntry(fields);
+        });
+    } else {
+      createEntry(fields);
+    }
+  }).catch((err) => {
+    if (link) {
+      createAsset(link)
+        .then((res) => {
+          fields.image["en-US"].sys.id = res.sys.id;
+          res
+            .processForLocale("en-US")
+            .then((finalAsset) =>
+              createEntry(fields)
+                .then()
+                .catch((err) => {
+                  console.log("Create entry failure");
+                })
+            )
+            .catch((err) => {
+              console.log("Process.locale failed");
+              createEntry(fields)
+                .then()
+                .catch((err) => {
+                  console.log("Create entry failed again");
+                });
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          createEntry(fields);
+        });
+    } else {
+      createEntry(fields);
+    }
+  }) ;
 }
+
+//make a function for the if statement - pass in link and fields

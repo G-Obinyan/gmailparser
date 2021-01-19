@@ -55,7 +55,7 @@ class ReadEmail {
       var request = gmail.users.messages.list({
         userId: "me",
         labelIds: ("Label_2891850754328044200", "STARRED"),
-        maxResults: 1,
+        maxResults: 15,
         json: true,
       });
 
@@ -137,8 +137,6 @@ class ReadEmail {
 }
 new ReadEmail("_dominio").setup();
 
-//final = text.split("I confirm this restaurant offers its own delivery service (ie. no UberEats, DoorDash, Skip the dishes etc.):")
-//console.log(final[1]);
+
 //To do:
-//convert address to long and lat
-//resolve(final);
+//Call get entries to check if entry is already created
