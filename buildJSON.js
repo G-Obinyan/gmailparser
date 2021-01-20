@@ -77,7 +77,7 @@ export default function (restoDetails) {
   if (restoDetails.service == "Delivery & Pickup") {
     fields.hasDelivery["en-US"] = true;
     fields.hasPickup["en-US"] = true;
-  } else if (restoDetails.service == "Delivery") {
+  } else if (restoDetails.service == "Delivery Only") {
     fields.hasDelivery["en-US"] = true;
     fields.hasPickup["en-US"] = false;
   } else {
