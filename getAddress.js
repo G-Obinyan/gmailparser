@@ -15,5 +15,3 @@ const getAddress = async (address) => {
 };
 
 export { getAddress };
-
-//   return res = await geocoder.geocode("1945 avenue rd");
