@@ -55,7 +55,7 @@ class ReadEmail {
       var request = gmail.users.messages.list({
         userId: "me",
         labelIds: ("Label_2891850754328044200", "STARRED"),
-        maxResults: 15,
+        maxResults: 45,
         json: true,
       });
 

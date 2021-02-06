@@ -19,6 +19,7 @@
   "homepage": "https://github.com/G-Obinyan/gmailparser#readme",
   "dependencies": {
     "contentful-management": "^7.5.1",
+    "csv-parser": "^3.0.0",
     "esm": "^3.2.25",
     "gmail-api-parse-message": "^2.1.2",
     "googleapis": "^39.2.0",

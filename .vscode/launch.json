@@ -8,11 +8,11 @@
         {
             "type": "pwa-node",
             "request": "launch",
-            "name": "getMail",
+            "name": "parseCSV",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/getMail.js"
+            "program": "${workspaceFolder}/parseCSV.js"
         }
     ]
 }
