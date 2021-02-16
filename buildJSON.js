@@ -38,36 +38,36 @@ export default function (restoDetails) {
     },
     deliveryHours: {
       "en-US": [
-        {
-          Monday: {
-            open: "",
-            closed: "",
-          },
-          Tuesday: {
-            open: "",
-            closed: "",
-          },
-          Wednesday: {
-            open: "",
-            closed: "",
-          },
-          Thursday: {
-            open: "",
-            closed: "",
-          },
-          Friday: {
-            open: "",
-            closed: "",
-          },
-          Saturday: {
-            open: "",
-            closed: "",
-          },
-          Sunday: {
-            open: "",
-            closed: "",
-          },
-        },
+        // {
+        //   Monday: {
+        //     open: "",
+        //     closed: "",
+        //   },
+        //   Tuesday: {
+        //     open: "",
+        //     closed: "",
+        //   },
+        //   Wednesday: {
+        //     open: "",
+        //     closed: "",
+        //   },
+        //   Thursday: {
+        //     open: "",
+        //     closed: "",
+        //   },
+        //   Friday: {
+        //     open: "",
+        //     closed: "",
+        //   },
+        //   Saturday: {
+        //     open: "",
+        //     closed: "",
+        //   },
+        //   Sunday: {
+        //     open: "",
+        //     closed: "",
+        //   },
+        // },
       ],
     },
   };
@@ -83,22 +83,18 @@ export default function (restoDetails) {
   } else {
     fields.hasDelivery["en-US"] = false;
     fields.hasPickup["en-US"] = true;
-  }
+  };
+  fields.deliveryHours["en-US"] = restoDetails.deliveryHours
   fields.link["en-US"] = restoDetails.link;
   fields.tags["en-US"].push(restoDetails.cuisine);
-  // fields.location["en-US"] = restoDetails.address;
-  // fields.image["en-US"] = restoDetails.image;
+  // let imageLink = (restoDetails.image) ? restoDetails.image:'';
 
-  let link = ''; //Pass in link from email here
-  let restoAddress = restoDetails.address;
-
-  getAddress(restoAddress).then((res) => {
-    console.log(res);
+  getAddress(restoDetails.address).then((res) => {
     fields.location["en-US"].lat = res[0].latitude;
     fields.location["en-US"].lon = res[0].longitude;
 
-    if (link) {
-      createAsset(link)
+    if (restoDetails.image) {
+      createAsset(restoDetails.image)
         .then((res) => {
           fields.image["en-US"].sys.id = res.sys.id;
           res
@@ -111,7 +107,7 @@ export default function (restoDetails) {
                 })
             )
             .catch((err) => {
-              console.log("Process.locale failed");
+              console.log("Process for locale failed");
               createEntry(fields)
                 .then()
                 .catch((err) => {
@@ -127,8 +123,8 @@ export default function (restoDetails) {
       createEntry(fields);
     }
   }).catch((err) => {
-    if (link) {
-      createAsset(link)
+    if (restoDetails.image) {
+      createAsset(restoDetails.image)
         .then((res) => {
           fields.image["en-US"].sys.id = res.sys.id;
           res
@@ -158,5 +154,3 @@ export default function (restoDetails) {
     }
   }) ;
 }
-
-//make a function for the if statement - pass in link and fields

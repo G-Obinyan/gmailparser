@@ -2,6 +2,7 @@ import fs from "fs";
 import { google } from "googleapis";
 const TOKEN_PATH = "../token.json";
 import initialRestToJson from "./buildJSON.js";
+import formatResponse from './formatRawData.js'
 
 //var rp = require('request-promise');
 //import parseMessage from 'gmail-api-parse-message';
@@ -85,50 +86,51 @@ class ReadEmail {
             let buff = new Buffer.from(msg, "base64");
             let text = buff.toString("ascii");
 
-            let nextTxt = text.split("Description - 250 character limit:");
-            let final = nextTxt[0].split("Restaurant Name:");
-            let restoName = final[1].replace(/(\r\n|\n|\r)/gm, "");
-            thisResto.restoName = restoName;
+            formatResponse(text, 'getMail');
+            // let nextTxt = text.split("Description - 250 character limit:");
+            // let final = nextTxt[0].split("Restaurant Name:");
+            // let restoName = final[1].replace(/(\r\n|\n|\r)/gm, "");
+            // thisResto.restoName = restoName;
 
-            nextTxt = text.split("Address:");
-            final = nextTxt[0].split("Description - 250 character limit:");
-            let desc = final[1].replace(/(\r\n|\n|\r)/gm, "");
-            thisResto.desc = desc;
+            // nextTxt = text.split("Address:");
+            // final = nextTxt[0].split("Description - 250 character limit:");
+            // let desc = final[1].replace(/(\r\n|\n|\r)/gm, "");
+            // thisResto.desc = desc;
 
-            nextTxt = text.split("Hours:");
-            final = nextTxt[0].split("Address:");
-            let add = final[1].replace(/(\r\n|\n|\r)/gm, "");
-            thisResto.address = add;
+            // nextTxt = text.split("Hours:");
+            // final = nextTxt[0].split("Address:");
+            // let add = final[1].replace(/(\r\n|\n|\r)/gm, "");
+            // thisResto.address = add;
 
-            nextTxt = text.split("Cuisine:");
-            final = nextTxt[0].split(
-              "Link to website - (Please use https if possible):"
-            );
-            let link = final[1].replace(/(\r\n|\n|\r)/gm, "");
-            thisResto.link = link;
+            // nextTxt = text.split("Cuisine:");
+            // final = nextTxt[0].split(
+            //   "Link to website - (Please use https if possible):"
+            // );
+            // let link = final[1].replace(/(\r\n|\n|\r)/gm, "");
+            // thisResto.link = link;
 
-            nextTxt = text.split("Service Offered:");
-            final = nextTxt[0].split("Cuisine:");
-            let cuisine = final[1].replace(/(\r\n|\n|\r)/gm, "");
-            thisResto.cuisine = cuisine;
+            // nextTxt = text.split("Service Offered:");
+            // final = nextTxt[0].split("Cuisine:");
+            // let cuisine = final[1].replace(/(\r\n|\n|\r)/gm, "");
+            // thisResto.cuisine = cuisine;
 
-            nextTxt = text.split("Please select an image:");
-            final = nextTxt[0].split("Service Offered:");
-            let service = final[1].replace(/(\r\n|\n|\r)/gm, "");
-            thisResto.service = service;
+            // nextTxt = text.split("Please select an image:");
+            // final = nextTxt[0].split("Service Offered:");
+            // let service = final[1].replace(/(\r\n|\n|\r)/gm, "");
+            // thisResto.service = service;
 
-            nextTxt = text.split(
-              "I confirm this restaurant offers its own delivery service (ie. no UberEats, DoorDash, Skip the dishes etc.):"
-            );
-            final = nextTxt[0].split("Please select an image:");
-            let image = final[1].replace(/(\r\n|\n|\r)/gm, "");
-            thisResto.image = image;
+            // nextTxt = text.split(
+            //   "I confirm this restaurant offers its own delivery service (ie. no UberEats, DoorDash, Skip the dishes etc.):"
+            // );
+            // final = nextTxt[0].split("Please select an image:");
+            // let image = final[1].replace(/(\r\n|\n|\r)/gm, "");
+            // thisResto.image = image;
 
-            //nextTxt = text.split("Link to website - (Please use https if possible):");
-            //final = nextTxt[0].split("Hours:");
+            // //nextTxt = text.split("Link to website - (Please use https if possible):");
+            // //final = nextTxt[0].split("Hours:");
 
-            initialRestToJson(thisResto);
-            //resolve(initialRestToJson(thisResto));
+            // initialRestToJson(thisResto);
+            // //resolve(initialRestToJson(thisResto));
           });
         }
       });
